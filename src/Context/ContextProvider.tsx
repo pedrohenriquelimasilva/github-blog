@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useEffect, useState } from "react"
+import { createContext, ReactNode, useCallback, useEffect, useState } from "react"
 import { api } from "../lib/api"
 
 interface DataGithubUsers {
@@ -11,18 +11,22 @@ interface DataGithubUsers {
   bio: string;
 }
 
+export interface IssuesProps{
+  id: string;
+  number: number;
+  title: string;
+  body: string;
+  html_url: string;
+  user: {
+    login: string;
+  }
+  comments: string;
+  created_at: string;
+}
+
 interface DataIssuesProps {
-  items:[{
-    id: string;
-    title: string;
-    body: string;
-    html_url: string;
-    user: {
-      login: string;
-    }
-    comments: string;
-    created_at: string;
-  }]
+  items: IssuesProps[]
+  total_count: number;
 }
 
 interface DataGithub {
@@ -30,6 +34,8 @@ interface DataGithub {
   searchReposIssues:  DataIssuesProps;
 
   searchQueryInGithub: (query: string) => Promise<void>;
+  searchInitProject: () => Promise<void>;
+  getSchemaGithub: () => Promise<void>;
 }
 
 export const DataGithubContext = createContext({} as DataGithub)
@@ -44,32 +50,29 @@ export function ContextProvider({children}: ContextProviderProps){
   const [searchReposIssues, setSearchReposIssues] = useState<DataIssuesProps>({} as DataIssuesProps)
 
   async function searchQueryInGithub(query: string){
-    const response = await api.get(`/search/issues?q=${query}repo:daltonmenezes/test`)
-    console.log(response.data)
+    const response = await api.get(`/search/issues`, {
+      params:{
+        q: `${query}repo:pedrohenriquelimasilva/github-blog`
+      }
+    })
 
     setSearchReposIssues({...response.data})
   }
 
-  async function searchInitProject(){
-    const response = await api.get(`/search/issues?q=Dynamic%20typing%20repo:daltonmenezes/test`)
-    console.log(response.data)
+  const searchInitProject = useCallback(async () => {
+    const response = await api.get(`/search/issues?q=repo:pedrohenriquelimasilva/github-blog`)
 
     setSearchReposIssues({...response.data})
-  }
+  }, [])
 
-  async function getSchemaGithub(){
+  const getSchemaGithub = useCallback(async () => {
     const response = await api.get('/users/pedrohenriquelimasilva')
     
     setDataGithub({...response.data})
-  }
-
-  useEffect(() => {
-    getSchemaGithub()
-    searchInitProject()
   }, [])
 
   return(
-    <DataGithubContext.Provider value={{dataGithub, searchQueryInGithub, searchReposIssues}}>
+    <DataGithubContext.Provider value={{dataGithub, searchQueryInGithub, searchReposIssues, searchInitProject, getSchemaGithub}}>
       {children}
     </DataGithubContext.Provider>
   )

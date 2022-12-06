@@ -1,29 +1,29 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { DataGithubContext } from "../../Context/ContextProvider";
-import { IssuesPost } from "./components/IssuesPost";
+import { AllPosts } from "./components/AllPosts";
 import { Profile } from "./components/Porfile";
 import { SearchInsues } from "./components/SearchInsues";
-import { BlogIssuesContain, AllPostsContain } from "./style";
+import { BlogIssuesContain } from "./style";
 
 export function BlogIssues(){
-  const {searchReposIssues} = useContext(DataGithubContext)
+  const {searchReposIssues, searchInitProject, getSchemaGithub } = useContext(DataGithubContext)
+
+  useEffect(() => {
+    searchInitProject() 
+    getSchemaGithub()
+  }, [])
+
   return(
   <BlogIssuesContain>
     <Profile />
 
     <div className="inform-profile">
       <strong>Publicações</strong>
-      <span>6 publicações</span>
+      <span>{searchReposIssues.total_count} publicações</span>
     </div>
     <SearchInsues />
 
-    <AllPostsContain>
-      {searchReposIssues.items.map(repo => {
-        return(
-          <IssuesPost key={repo.id} issues={repo}/>
-        )
-      })}
-    </AllPostsContain>
+    {searchReposIssues.items ? <AllPosts items={searchReposIssues.items}/> : <></>}
   </BlogIssuesContain>
   )
 }

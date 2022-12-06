@@ -1,21 +1,30 @@
 import { ProfileCard } from "./components/ProfileCard";
 import ReactMarkdown from 'react-markdown'
 import { IssuesContain } from "./style";
+import { useParams } from "react-router-dom";
+import { useContext } from "react";
+import { DataGithubContext } from "../../Context/ContextProvider";
+import remarkgfm from "remark-gfm"
+import remarkhtml from "remark-html"
+import remarkcodeextra from 'remark-code-extra'
 
 
 export function IssuesPage(){
-  const markDown = ` 
-  # Coffe Delivery - web site
-  
-  ## 💻 Project
-  
-  This project was built to support the study of how to develop applications in react, componetização, context and its features. It is applied concepts of components, properties, CRUD, api integration.
-  
-  ## 🚀 Technologies
-  `
-    return(
-      <IssuesContain>
-        <ProfileCard />
-      </IssuesContain>
+  const {numberIssues} = useParams()
+  const {searchReposIssues} = useContext(DataGithubContext)
+
+  const issue = searchReposIssues.items.filter(item => item.number === Number(numberIssues))[0]
+
+
+  return(
+    <IssuesContain>
+      <ProfileCard issues={issue}/>
+      <main>
+        <ReactMarkdown 
+          children={issue.body} 
+          remarkPlugins={[remarkgfm, remarkhtml]}
+        />
+      </main>
+    </IssuesContain>
     )
 }
