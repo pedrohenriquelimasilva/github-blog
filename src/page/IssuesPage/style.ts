@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const IssuesContain = styled.main`
   display: flex;
@@ -8,9 +8,9 @@ export const IssuesContain = styled.main`
   max-width: 54rem;
   margin: 0 auto;
 
-  main{
+  main {
     line-height: 1.6;
-    gap:1rem;
+    gap: 1rem;
     display: flex;
     flex-direction: column;
     padding: 2.5rem 2rem;

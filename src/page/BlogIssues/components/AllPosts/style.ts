@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const AllPostsContain = styled.section`
   display: grid;
@@ -6,8 +6,8 @@ export const AllPostsContain = styled.section`
   gap: 2rem;
   margin-top: 3rem;
 
-  .Link{
+  .Link {
     text-decoration: none;
-    color: ${props => props.theme['base-text']};
+    color: ${(props) => props.theme['base-text']};
   }
 `

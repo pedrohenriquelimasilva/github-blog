@@ -1,8 +1,8 @@
-import { Header } from "../components/Header";
+import { Header } from '../components/Header'
 import { Outlet } from 'react-router-dom'
 
-export function LayoutGithubBlog(){
-  return(
+export function LayoutGithubBlog() {
+  return (
     <>
       <Header />
       <Outlet />

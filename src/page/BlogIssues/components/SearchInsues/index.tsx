@@ -5,24 +5,33 @@ import { DataGithubContext } from '../../../../Context/ContextProvider'
 import { SearchFormContain } from './style'
 
 const searchInsuesSchema = z.object({
-  query: z.string()
+  query: z.string(),
 })
 
 type SearchInsuesProps = z.infer<typeof searchInsuesSchema>
 
-export function SearchInsues(){
-  const {register, reset, handleSubmit, formState:{isSubmitting}} = useForm<SearchInsuesProps>()
+export function SearchInsues() {
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm<SearchInsuesProps>()
 
-  const {searchQueryInGithub} = useContext(DataGithubContext)
+  const { searchQueryInGithub } = useContext(DataGithubContext)
 
-  function submitForm(data: SearchInsuesProps){
+  function submitForm(data: SearchInsuesProps) {
     searchQueryInGithub(data.query)
     reset()
   }
-  return(
+  return (
     <div>
       <SearchFormContain onSubmit={handleSubmit(submitForm)}>
-        <input placeholder="Buscar conteúdo" {...register('query')} disabled={isSubmitting}/>
+        <input
+          placeholder="Buscar conteúdo"
+          {...register('query')}
+          disabled={isSubmitting}
+        />
       </SearchFormContain>
     </div>
   )

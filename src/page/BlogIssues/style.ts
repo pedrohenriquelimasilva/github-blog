@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const BlogIssuesContain = styled.main`
   width: 100%;
@@ -8,22 +8,22 @@ export const BlogIssuesContain = styled.main`
   display: flex;
   flex-direction: column;
 
-  .inform-profile{ 
+  .inform-profile {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-top: 4.6rem;
 
-    strong{
+    strong {
       font-size: 1.125rem;
       line-height: 1.6;
-      color: ${props => props.theme['base-subtitle']};
+      color: ${(props) => props.theme['base-subtitle']};
     }
 
-    span{
-      font-size: .875rem;
+    span {
+      font-size: 0.875rem;
       line-height: 1.6;
-      color: ${props => props.theme['base-span']};
+      color: ${(props) => props.theme['base-span']};
     }
   }
 `

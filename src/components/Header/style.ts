@@ -1,6 +1,5 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 import CoverGithub from '../../assets/Cover.png'
-
 
 export const HeaderContainer = styled.header`
   padding: 4rem 0 8rem;
