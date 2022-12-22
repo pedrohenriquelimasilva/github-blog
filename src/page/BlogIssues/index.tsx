@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { DataGithubContext } from '../../Context/ContextProvider'
 import { AllPosts } from './components/AllPosts'
 import { Profile } from './components/Porfile'
@@ -6,13 +6,7 @@ import { SearchInsues } from './components/SearchInsues'
 import { BlogIssuesContain } from './style'
 
 export function BlogIssues() {
-  const { searchReposIssues, searchInitProject, getSchemaGithub } =
-    useContext(DataGithubContext)
-
-  useEffect(() => {
-    searchInitProject()
-    getSchemaGithub()
-  }, [getSchemaGithub, searchInitProject])
+  const { searchReposIssues } = useContext(DataGithubContext)
 
   return (
     <BlogIssuesContain>

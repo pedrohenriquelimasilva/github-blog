@@ -3,9 +3,18 @@ import {
   ReactNode,
   useCallback,
   useEffect,
+  useReducer,
   useState,
 } from 'react'
+
 import { api } from '../lib/api'
+
+import {
+  searchQueryissue,
+  searchInitProjects,
+} from '../reducers/queryGithub/actions'
+
+import { DataIssuesProps, searchReducer } from '../reducers/queryGithub/reducer'
 
 interface DataGithubUsers {
   login: string
@@ -28,11 +37,6 @@ export interface IssuesProps {
   }
   comments: string
   created_at: string
-}
-
-interface DataIssuesProps {
-  items: IssuesProps[]
-  total_count: number
 }
 
 interface DataGithub {
@@ -58,7 +62,7 @@ export function ContextProvider({ children }: ContextProviderProps) {
     {} as DataIssuesProps,
   )
 
-  async function searchQueryInGithub(query: string) {
+  const searchQueryInGithub = useCallback(async (query: string) => {
     const response = await api.get(`/search/issues`, {
       params: {
         q: `${query}repo:pedrohenriquelimasilva/github-blog`,
@@ -66,7 +70,7 @@ export function ContextProvider({ children }: ContextProviderProps) {
     })
 
     setSearchReposIssues({ ...response.data })
-  }
+  }, [])
 
   const searchInitProject = useCallback(async () => {
     const response = await api.get(
@@ -81,6 +85,11 @@ export function ContextProvider({ children }: ContextProviderProps) {
 
     setDataGithub({ ...response.data })
   }, [])
+
+  useEffect(() => {
+    getSchemaGithub()
+    searchInitProject()
+  }, [getSchemaGithub, searchInitProject])
 
   return (
     <DataGithubContext.Provider
